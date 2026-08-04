@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cloudatck — Websites, stacked to convert</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#0F1420;
+    --ink-2:#161D2E;
+    --paper:#F6F3ED;
+    --indigo:#5B5FEF;
+    --indigo-soft:#9296F5;
+    --coral:#FF6B4A;
+    --slate:#8A8F9E;
+    --line: rgba(246,243,237,0.12);
+    --display: 'Space Grotesk', sans-serif;
+    --body: 'Inter', sans-serif;
+    --mono: 'IBM Plex Mono', monospace;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--ink);
+    color:var(--paper);
+    font-family:var(--body);
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  a{color:inherit; text-decoration:none;}
+  ::selection{background:var(--indigo); color:var(--paper);}
+  @media (prefers-reduced-motion: reduce){
+    *{animation-duration:0.01ms !important; animation-iteration-count:1 !important; transition-duration:0.01ms !important;}
+  }
+
+  .wrap{max-width:1180px; margin:0 auto; padding:0 32px;}
+
+  /* ---------- NAV ---------- */
+  header{
+    position:sticky; top:0; z-index:50;
+    background:rgba(15,20,32,0.85);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+  }
+  nav{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:20px 32px; max-width:1180px; margin:0 auto;
+  }
+  .logo{
+    font-family:var(--display); font-weight:700; font-size:20px;
+    display:flex; align-items:center; gap:8px; letter-spacing:-0.02em;
+  }
+  .logo .mark{
+    display:inline-flex; flex-direction:column; gap:3px;
+  }
+  .logo .mark span{
+    width:18px; height:4px; border-radius:2px; background:var(--indigo);
+    display:block;
+  }
+  .logo .mark span:nth-child(2){background:var(--indigo-soft); width:14px;}
+  .logo .mark span:nth-child(3){background:var(--coral); width:10px;}
+  .navlinks{display:flex; gap:36px; font-size:14px; color:var(--slate);}
+  .navlinks a{transition:color .2s ease;}
+  .navlinks a:hover, .navlinks a:focus-visible{color:var(--paper);}
+  .nav-cta{
+    font-family:var(--mono); font-size:13px; padding:10px 18px;
+    border:1px solid var(--line); border-radius:100px;
+    transition:border-color .2s ease, background .2s ease;
+  }
+  .nav-cta:hover, .nav-cta:focus-visible{border-color:var(--indigo); background:rgba(91,95,239,0.1);}
+
+  /* ---------- HERO ---------- */
+  .hero{
+    padding:110px 0 90px;
+    position:relative;
+  }
+  .hero .wrap{
+    display:grid; grid-template-columns:1.1fr 0.9fr; gap:64px; align-items:center;
+  }
+  .eyebrow{
+    font-family:var(--mono); font-size:12px; letter-spacing:0.14em; text-transform:uppercase;
+    color:var(--indigo-soft); display:flex; align-items:center; gap:10px; margin-bottom:22px;
+  }
+  .eyebrow::before{content:''; width:8px; height:8px; border-radius:50%; background:var(--coral); display:inline-block;}
+  h1{
+    font-family:var(--display); font-weight:700; font-size:clamp(38px,5vw,64px);
+    line-height:1.03; letter-spacing:-0.03em; margin-bottom:24px;
+  }
+  h1 em{
+    font-style:normal; color:var(--indigo-soft);
+    background:linear-gradient(180deg, transparent 62%, rgba(91,95,239,0.35) 62%);
+  }
+  .hero p.lede{
+    font-size:18px; color:var(--slate); max-width:480px; margin-bottom:36px;
+  }
+  .hero-ctas{display:flex; gap:16px; align-items:center; flex-wrap:wrap;}
+  .btn-primary{
+    background:var(--indigo); color:#fff; font-weight:600; font-size:15px;
+    padding:15px 28px; border-radius:10px; display:inline-flex; align-items:center; gap:8px;
+    transition:transform .2s ease, box-shadow .2s ease;
+    box-shadow:0 0 0 rgba(91,95,239,0);
+  }
+  .btn-primary:hover, .btn-primary:focus-visible{transform:translateY(-2px); box-shadow:0 12px 24px rgba(91,95,239,0.35);}
+  .btn-ghost{
+    color:var(--paper); font-size:15px; padding:15px 6px; border-bottom:1px solid var(--line);
+    display:inline-flex; align-items:center; gap:6px; transition:border-color .2s ease, color .2s ease;
+  }
+  .btn-ghost:hover, .btn-ghost:focus-visible{border-color:var(--paper);}
+  .phone-line{margin-top:18px; font-size:14px; color:var(--slate);}
+  .phone-line a{color:var(--paper); border-bottom:1px solid var(--line); transition:border-color .2s ease;}
+  .phone-line a:hover{border-color:var(--indigo-soft);}
+
+  /* signature stack visual */
+  .stackviz{
+    position:relative; height:420px; display:flex; flex-direction:column-reverse; gap:10px;
+    justify-content:flex-start;
+  }
+  .layer{
+    position:relative;
+    border-radius:14px;
+    border:1px solid var(--line);
+    background:var(--ink-2);
+    padding:18px 22px;
+    cursor:pointer;
+    transition:transform .35s cubic-bezier(.2,.8,.2,1), background .35s ease, border-color .35s ease;
+    overflow:hidden;
+  }
+  .layer .top{display:flex; align-items:center; justify-content:space-between;}
+  .layer .num{font-family:var(--mono); font-size:12px; color:var(--slate);}
+  .layer .name{font-family:var(--display); font-weight:600; font-size:19px;}
+  .layer .desc{
+    font-size:13px; color:var(--slate); max-height:0; opacity:0; overflow:hidden;
+    transition:max-height .35s ease, opacity .3s ease, margin-top .35s ease;
+  }
+  .layer:hover, .layer:focus-visible, .layer.active{
+    background:linear-gradient(135deg, rgba(91,95,239,0.16), rgba(255,107,74,0.08));
+    border-color:var(--indigo);
+    transform:translateX(10px);
+  }
+  .layer:hover .desc, .layer:focus-visible .desc, .layer.active .desc{
+    max-height:60px; opacity:1; margin-top:8px;
+  }
+  .layer[data-i="0"]{background:linear-gradient(135deg, rgba(91,95,239,0.10), transparent);}
+
+  /* ---------- MARQUEE / TRUST STRIP ---------- */
+  .strip{
+    border-top:1px solid var(--line); border-bottom:1px solid var(--line);
+    padding:22px 0; overflow:hidden; white-space:nowrap;
+  }
+  .strip-track{display:inline-flex; gap:64px; animation:scroll 26s linear infinite; font-family:var(--mono); font-size:13px; color:var(--slate); letter-spacing:0.04em;}
+  @keyframes scroll{ from{transform:translateX(0);} to{transform:translateX(-50%);} }
+
+  /* ---------- SECTION SHARED ---------- */
+  section{padding:110px 0;}
+  .section-head{max-width:620px; margin-bottom:64px;}
+  .kicker{
+    font-family:var(--mono); font-size:12px; letter-spacing:0.14em; text-transform:uppercase;
+    color:var(--coral); margin-bottom:14px; display:block;
+  }
+  h2{font-family:var(--display); font-weight:700; font-size:clamp(28px,3.4vw,42px); letter-spacing:-0.02em; margin-bottom:16px;}
+  .section-head p{color:var(--slate); font-size:16px;}
+
+  /* ---------- SERVICES ---------- */
+  .services{border-top:1px solid var(--line);}
+  .service-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:var(--line); border:1px solid var(--line); border-radius:16px; overflow:hidden;}
+  .service-card{background:var(--ink); padding:32px 26px; transition:background .25s ease;}
+  .service-card:hover{background:var(--ink-2);}
+  .service-card .sn{font-family:var(--mono); font-size:12px; color:var(--indigo-soft); display:block; margin-bottom:22px;}
+  .service-card h3{font-family:var(--display); font-size:19px; font-weight:600; margin-bottom:10px;}
+  .service-card p{font-size:14px; color:var(--slate);}
+
+  /* ---------- PROCESS ---------- */
+  .process{border-top:1px solid var(--line);}
+  .process-list{border-top:1px solid var(--line);}
+  .process-row{
+    display:grid; grid-template-columns:80px 1fr 1.3fr; gap:32px; padding:32px 0;
+    border-bottom:1px solid var(--line); align-items:start;
+  }
+  .process-row .pnum{font-family:var(--mono); font-size:14px; color:var(--indigo-soft);}
+  .process-row h4{font-family:var(--display); font-size:21px; font-weight:600;}
+  .process-row p{color:var(--slate); font-size:14px; max-width:460px;}
+
+  /* ---------- PRICING ---------- */
+  .pricing{border-top:1px solid var(--line);}
+  .price-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:24px;}
+  .price-card{
+    border:1px solid var(--line); border-radius:18px; padding:36px 30px; background:var(--ink-2);
+    display:flex; flex-direction:column; height:100%;
+  }
+  .price-card.feat{border-color:var(--indigo); background:linear-gradient(160deg, rgba(91,95,239,0.14), var(--ink-2) 60%); position:relative;}
+  .price-card.feat::before{
+    content:'MOST STACKED'; position:absolute; top:-12px; right:24px; font-family:var(--mono); font-size:10px;
+    background:var(--coral); color:var(--ink); padding:4px 10px; border-radius:100px; letter-spacing:0.06em;
+  }
+  .price-card h3{font-family:var(--display); font-size:20px; margin-bottom:6px;}
+  .price-card .price{font-family:var(--display); font-size:38px; font-weight:700; margin:14px 0;}
+  .price-card ul{list-style:none; margin:22px 0 30px; flex:1;}
+  .price-card li{
+    font-size:14px; color:var(--slate); padding-left:22px; position:relative; margin-bottom:12px;
+  }
+  .price-card li::before{content:'—'; position:absolute; left:0; color:var(--indigo-soft);}
+  .price-card .btn-primary, .price-card .btn-ghost{justify-content:center; width:100%;}
+  .price-card .btn-ghost{border:1px solid var(--line); border-radius:10px; padding:14px;}
+
+  /* ---------- CTA ---------- */
+  .cta-band{
+    border-top:1px solid var(--line);
+    text-align:center;
+    padding:120px 0;
+    background:radial-gradient(ellipse at 50% 0%, rgba(91,95,239,0.15), transparent 60%);
+  }
+  .cta-band h2{max-width:640px; margin:0 auto 30px;}
+  .cta-band .eyebrow{justify-content:center;}
+  .cta-links{display:flex; gap:16px; justify-content:center; flex-wrap:wrap;}
+
+  /* ---------- FOOTER ---------- */
+  footer{border-top:1px solid var(--line); padding:56px 0 40px;}
+  .foot-grid{display:grid; grid-template-columns:1.4fr repeat(2,1fr); gap:40px; margin-bottom:56px;}
+  .foot-brand p{color:var(--slate); font-size:14px; margin-top:14px; max-width:260px;}
+  .foot-col h5{font-family:var(--mono); font-size:12px; text-transform:uppercase; letter-spacing:0.1em; color:var(--slate); margin-bottom:16px;}
+  .foot-col a{display:block; font-size:14px; color:var(--paper); margin-bottom:10px; opacity:0.85; transition:opacity .2s ease;}
+  .foot-col a:hover{opacity:1; color:var(--indigo-soft);}
+  .foot-bottom{
+    display:flex; justify-content:space-between; align-items:center;
+    padding-top:28px; border-top:1px solid var(--line);
+    font-family:var(--mono); font-size:12px; color:var(--slate); flex-wrap:wrap; gap:12px;
+  }
+
+  /* ---------- RESPONSIVE ---------- */
+  @media (max-width:900px){
+    .navlinks{display:none;}
+    .hero .wrap{grid-template-columns:1fr; gap:48px;}
+    .stackviz{height:auto;}
+    .service-grid{grid-template-columns:repeat(2,1fr);}
+    .price-grid{grid-template-columns:1fr;}
+    .process-row{grid-template-columns:1fr; gap:10px;}
+    .foot-grid{grid-template-columns:1fr 1fr; gap:32px;}
+  }
+  @media (max-width:560px){
+    .wrap{padding:0 20px;}
+    section{padding:76px 0;}
+    .hero{padding:70px 0 60px;}
+    .service-grid{grid-template-columns:1fr;}
+    .foot-grid{grid-template-columns:1fr;}
+  }
+
+  :focus-visible{outline:2px solid var(--indigo-soft); outline-offset:3px;}
+
+  .wa-float{
+    position:fixed; bottom:26px; right:26px; z-index:60;
+    width:58px; height:58px; border-radius:50%;
+    background:#25D366; color:#0F1420;
+    display:flex; align-items:center; justify-content:center;
+    box-shadow:0 10px 30px rgba(37,211,102,0.4);
+    transition:transform .2s ease, box-shadow .2s ease;
+  }
+  .wa-float:hover, .wa-float:focus-visible{transform:translateY(-3px) scale(1.05); box-shadow:0 14px 34px rgba(37,211,102,0.55);}
+  @media (max-width:560px){
+    .wa-float{bottom:18px; right:18px; width:52px; height:52px;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <nav>
+    <a href="#" class="logo" aria-label="Cloudatck home">
+      <span class="mark"><span></span><span></span><span></span></span>
+      Cloudatck
+    </a>
+    <div class="navlinks">
+      <a href="#services">Services</a>
+      <a href="#process">Process</a>
+      <a href="#pricing">Pricing</a>
+    </div>
+    <a href="https://wa.me/27650565567" class="nav-cta" target="_blank" rel="noopener">Chat on WhatsApp →</a>
+  </nav>
+</header>
+
+<main>
+
+  <section class="hero">
+    <div class="wrap">
+      <div>
+        <span class="eyebrow">Web design studio</span>
+        <h1>Websites, <em>stacked</em> to convert.</h1>
+        <p class="lede">Cloudatck designs and builds fast, good-looking websites in four deliberate layers — discover, design, build, launch — so nothing gets bolted on and nothing gets skipped.</p>
+        <div class="hero-ctas">
+          <a href="https://wa.me/27650565567" class="btn-primary" target="_blank" rel="noopener">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.04 2c-5.52 0-10 4.48-10 10 0 1.77.46 3.45 1.27 4.9L2 22l5.25-1.38A9.95 9.95 0 0 0 12.04 22c5.52 0 10-4.48 10-10s-4.48-10-10-10zm0 18.2c-1.6 0-3.15-.43-4.5-1.24l-.32-.19-3.12.82.83-3.04-.21-.31A8.17 8.17 0 0 1 3.84 12c0-4.53 3.68-8.2 8.2-8.2 4.53 0 8.2 3.68 8.2 8.2 0 4.53-3.68 8.2-8.2 8.2zm4.5-6.15c-.25-.12-1.47-.72-1.7-.81-.23-.08-.39-.12-.56.13-.16.25-.64.81-.78.97-.14.17-.29.19-.53.06-.25-.12-1.05-.39-2-1.23-.74-.66-1.24-1.48-1.39-1.73-.14-.25-.02-.38.11-.51.11-.11.25-.29.37-.43.12-.14.16-.25.25-.41.08-.17.04-.31-.02-.43-.06-.12-.56-1.34-.76-1.84-.2-.48-.4-.42-.56-.42-.14-.01-.31-.01-.47-.01-.17 0-.43.06-.66.31-.23.25-.86.85-.86 2.06 0 1.22.89 2.4 1.01 2.56.12.17 1.75 2.67 4.24 3.74.59.26 1.06.41 1.42.52.6.19 1.14.16 1.57.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.15-1.18-.06-.1-.23-.17-.48-.29z"/></svg>
+            Chat on WhatsApp
+          </a>
+          <a href="#services" class="btn-ghost">See what we do ↓</a>
+        </div>
+        <p class="phone-line">Or call/text <a href="tel:+27650565567">065 056 5567</a></p>
+      </div>
+
+      <div class="stackviz" role="list" aria-label="Our four-layer process">
+        <div class="layer" data-i="3" tabindex="0" role="listitem">
+          <div class="top"><span class="name">Launch</span><span class="num">04</span></div>
+          <p class="desc">Deployed, tested on every device, and handed over with a plain-language guide.</p>
+        </div>
+        <div class="layer" data-i="2" tabindex="0" role="listitem">
+          <div class="top"><span class="name">Build</span><span class="num">03</span></div>
+          <p class="desc">Hand-coded pages, real content, fast load times — no bloated page builders.</p>
+        </div>
+        <div class="layer" data-i="1" tabindex="0" role="listitem">
+          <div class="top"><span class="name">Design</span><span class="num">02</span></div>
+          <p class="desc">A visual system built for your brand, not picked from a template gallery.</p>
+        </div>
+        <div class="layer active" data-i="0" tabindex="0" role="listitem">
+          <div class="top"><span class="name">Discover</span><span class="num">01</span></div>
+          <p class="desc">We learn your business, your customers, and what the site needs to do for you.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="strip">
+    <div class="strip-track">
+      <span>DESIGN</span><span>·</span><span>BUILD</span><span>·</span><span>LAUNCH</span><span>·</span>
+      <span>SMALL BUSINESS SITES</span><span>·</span><span>ECOMMERCE</span><span>·</span>
+      <span>PRODUCT LANDING PAGES</span><span>·</span><span>PORTFOLIO SITES</span><span>·</span>
+      <span>DESIGN</span><span>·</span><span>BUILD</span><span>·</span><span>LAUNCH</span><span>·</span>
+      <span>SMALL BUSINESS SITES</span><span>·</span><span>ECOMMERCE</span><span>·</span>
+      <span>PRODUCT LANDING PAGES</span><span>·</span><span>PORTFOLIO SITES</span><span>·</span>
+    </div>
+  </div>
+
+  <section class="services" id="services">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="kicker">What we do</span>
+        <h2>Four services, one team</h2>
+        <p>Every project draws from the same stack, in whatever combination your site needs.</p>
+      </div>
+      <div class="service-grid">
+        <div class="service-card">
+          <span class="sn">01 / Design</span>
+          <h3>Brand & UI design</h3>
+          <p>A layout, type system, and colour palette designed around your business — not a theme.</p>
+        </div>
+        <div class="service-card">
+          <span class="sn">02 / Build</span>
+          <h3>Custom development</h3>
+          <p>Hand-built pages that load fast and hold up on any screen, from a phone to a boardroom TV.</p>
+        </div>
+        <div class="service-card">
+          <span class="sn">03 / Commerce</span>
+          <h3>Online stores</h3>
+          <p>Product pages, checkout, and inventory set up so you can run the store without calling us.</p>
+        </div>
+        <div class="service-card">
+          <span class="sn">04 / Care</span>
+          <h3>Ongoing support</h3>
+          <p>Monthly updates, backups, and small edits, so the site keeps working after we hand it over.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="process" id="process">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="kicker">How it runs</span>
+        <h2>The stack, in order</h2>
+        <p>Four stages, each one finished before the next begins.</p>
+      </div>
+      <div class="process-list">
+        <div class="process-row">
+          <span class="pnum">01</span>
+          <h4>Discover</h4>
+          <p>A working session to map your business, your customers, and what the site needs to achieve. Comes back to you as a short brief.</p>
+        </div>
+        <div class="process-row">
+          <span class="pnum">02</span>
+          <h4>Design</h4>
+          <p>Layout, type, and colour, shown as real pages — not mockups you have to imagine in context.</p>
+        </div>
+        <div class="process-row">
+          <span class="pnum">03</span>
+          <h4>Build</h4>
+          <p>Development on staging, with your feedback folded in at two checkpoints, not just at the end.</p>
+        </div>
+        <div class="process-row">
+          <span class="pnum">04</span>
+          <h4>Launch</h4>
+          <p>Final checks across devices, DNS switched over, and a short handover call so you know your way around.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="pricing" id="pricing">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="kicker">Pricing</span>
+        <h2>Three ways to start</h2>
+        <p>Every tier includes design and build. Pick the one that matches how big the site needs to be.</p>
+      </div>
+      <div class="price-grid">
+        <div class="price-card">
+          <h3>Launch</h3>
+          <div class="price">R1,500</div>
+          <ul>
+            <li>Up to 5 pages</li>
+            <li>Custom design, no templates</li>
+            <li>Mobile & tablet layouts</li>
+            <li>2 rounds of revisions</li>
+            <li>2-week turnaround</li>
+          </ul>
+          <a href="https://wa.me/27650565567" class="btn-ghost" target="_blank" rel="noopener">Start here</a>
+        </div>
+        <div class="price-card feat">
+          <h3>Grow</h3>
+          <div class="price">R2,500</div>
+          <ul>
+            <li>Up to 12 pages</li>
+            <li>Custom design system</li>
+            <li>Blog or resource section</li>
+            <li>Basic SEO setup</li>
+            <li>3 rounds of revisions</li>
+            <li>4-week turnaround</li>
+          </ul>
+          <a href="https://wa.me/27650565567" class="btn-primary" target="_blank" rel="noopener">Start here</a>
+        </div>
+        <div class="price-card">
+          <h3>Store</h3>
+          <div class="price">R5,500</div>
+          <ul>
+            <li>Full online store</li>
+            <li>Product & checkout pages</li>
+            <li>Inventory & order setup</li>
+            <li>Staff training call</li>
+            <li>6-week turnaround</li>
+          </ul>
+          <a href="https://wa.me/27650565567" class="btn-ghost" target="_blank" rel="noopener">Start here</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-band" id="contact">
+    <div class="wrap">
+      <span class="eyebrow">Ready when you are</span>
+      <h2 style="margin-left:auto; margin-right:auto;">Tell us about your business — we'll reply with a quote in two days.</h2>
+      <div class="cta-links">
+        <a href="https://wa.me/27650565567" class="btn-primary" target="_blank" rel="noopener">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.04 2c-5.52 0-10 4.48-10 10 0 1.77.46 3.45 1.27 4.9L2 22l5.25-1.38A9.95 9.95 0 0 0 12.04 22c5.52 0 10-4.48 10-10s-4.48-10-10-10zm0 18.2c-1.6 0-3.15-.43-4.5-1.24l-.32-.19-3.12.82.83-3.04-.21-.31A8.17 8.17 0 0 1 3.84 12c0-4.53 3.68-8.2 8.2-8.2 4.53 0 8.2 3.68 8.2 8.2 0 4.53-3.68 8.2-8.2 8.2zm4.5-6.15c-.25-.12-1.47-.72-1.7-.81-.23-.08-.39-.12-.56.13-.16.25-.64.81-.78.97-.14.17-.29.19-.53.06-.25-.12-1.05-.39-2-1.23-.74-.66-1.24-1.48-1.39-1.73-.14-.25-.02-.38.11-.51.11-.11.25-.29.37-.43.12-.14.16-.25.25-.41.08-.17.04-.31-.02-.43-.06-.12-.56-1.34-.76-1.84-.2-.48-.4-.42-.56-.42-.14-.01-.31-.01-.47-.01-.17 0-.43.06-.66.31-.23.25-.86.85-.86 2.06 0 1.22.89 2.4 1.01 2.56.12.17 1.75 2.67 4.24 3.74.59.26 1.06.41 1.42.52.6.19 1.14.16 1.57.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.15-1.18-.06-.1-.23-.17-.48-.29z"/></svg>
+          065 056 5567
+        </a>
+        <a href="mailto:cloudstack71@gmail.com" class="btn-ghost">cloudstack71@gmail.com</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <a href="#" class="logo"><span class="mark"><span></span><span></span><span></span></span>Cloudatck</a>
+        <p>A web design studio. We design, build, and launch sites in four deliberate layers.</p>
+      </div>
+      <div class="foot-col">
+        <h5>Studio</h5>
+        <a href="#services">Services</a>
+        <a href="#process">Process</a>
+        <a href="#pricing">Pricing</a>
+      </div>
+      <div class="foot-col">
+        <h5>Contact</h5>
+        <a href="https://wa.me/27650565567" target="_blank" rel="noopener">WhatsApp: 065 056 5567</a>
+        <a href="tel:+27650565567">Call: 065 056 5567</a>
+        <a href="mailto:cloudstack71@gmail.com">cloudstack71@gmail.com</a>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 Cloudatck Studio</span>
+      <span>Designed & built by Cloudatck</span>
+    </div>
+  </div>
+</footer>
+
+<a href="https://wa.me/27650565567" class="wa-float" target="_blank" rel="noopener" aria-label="Chat with Cloudatck on WhatsApp">
+  <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.04 2c-5.52 0-10 4.48-10 10 0 1.77.46 3.45 1.27 4.9L2 22l5.25-1.38A9.95 9.95 0 0 0 12.04 22c5.52 0 10-4.48 10-10s-4.48-10-10-10zm0 18.2c-1.6 0-3.15-.43-4.5-1.24l-.32-.19-3.12.82.83-3.04-.21-.31A8.17 8.17 0 0 1 3.84 12c0-4.53 3.68-8.2 8.2-8.2 4.53 0 8.2 3.68 8.2 8.2 0 4.53-3.68 8.2-8.2 8.2zm4.5-6.15c-.25-.12-1.47-.72-1.7-.81-.23-.08-.39-.12-.56.13-.16.25-.64.81-.78.97-.14.17-.29.19-.53.06-.25-.12-1.05-.39-2-1.23-.74-.66-1.24-1.48-1.39-1.73-.14-.25-.02-.38.11-.51.11-.11.25-.29.37-.43.12-.14.16-.25.25-.41.08-.17.04-.31-.02-.43-.06-.12-.56-1.34-.76-1.84-.2-.48-.4-.42-.56-.42-.14-.01-.31-.01-.47-.01-.17 0-.43.06-.66.31-.23.25-.86.85-.86 2.06 0 1.22.89 2.4 1.01 2.56.12.17 1.75 2.67 4.24 3.74.59.26 1.06.41 1.42.52.6.19 1.14.16 1.57.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.15-1.18-.06-.1-.23-.17-.48-.29z"/></svg>
+</a>
+
+<script>
+  document.querySelectorAll('.layer').forEach(layer => {
+    layer.addEventListener('click', () => {
+      document.querySelectorAll('.layer').forEach(l => l.classList.remove('active'));
+      layer.classList.add('active');
+    });
+  });
+</script>
+
+</body>
+</html>
